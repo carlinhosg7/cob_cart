@@ -72,28 +72,45 @@ try:
         st.markdown("### 📉 Evolução da Carteira x Cobertura")
 
         fig_linha = go.Figure()
+
+        # 💼 Linha branca: Saldo de Carteira com rótulo
         fig_linha.add_trace(go.Scatter(
             x=df['Rep'].astype(str),
             y=df['Saldo de Carteira'],
-            mode='lines+markers',
+            mode='lines+markers+text',
             name='💼 Carteira',
-            line=dict(color='lightgray', width=3)
+            line=dict(color='lightgray', width=3),
+            marker=dict(size=6),
+            text=df['Saldo de Carteira'].round(0).astype(int),
+            textposition='top right',
+            textfont=dict(size=10)
         ))
+
+        # ✅ Linha laranja: Cobertura com rótulo
         fig_linha.add_trace(go.Scatter(
             x=df['Rep'].astype(str),
             y=df['cobertura'],
-            mode='lines+markers',
+            mode='lines+markers+text',
             name='✅ Cobertura',
-            line=dict(color='#FF6600', width=3)
+            line=dict(color='#FF6600', width=3),
+            marker=dict(size=6),
+            text=df['cobertura'].round(0).astype(int),
+            textposition='bottom right',
+            textfont=dict(size=10)
         ))
+
+        # Layout do gráfico
         fig_linha.update_layout(
             xaxis_title='Representante',
             yaxis_title='Clientes',
             legend_title='Indicador',
-            height=400,
-            template='plotly_white'
+            height=450,
+            template='plotly_white',
+            margin=dict(l=20, r=20, t=50, b=20)
         )
+
         st.plotly_chart(fig_linha, use_container_width=True)
+
 
         # 📊 Gráfico Geral de Cobertura
         fig = go.Figure()
